@@ -9,6 +9,9 @@ separate-locales: false
 build-options:
   prefix: /usr/lib/sdk/texlive
   prepend-path: /usr/lib/sdk/texlive/bin
+  prepend-pkg-config-path: /usr/lib/sdk/texlive/lib/pkgconfig
+  cppflags: -I/usr/lib/sdk/texlive/include
+  ldflags: -L/usr/lib/sdk/texlive/lib
   arch:
     aarch64:
       prepend-path: /usr/lib/sdk/texlive/bin/aarch64-linux
@@ -31,7 +34,7 @@ modules:
     config-opts:
       - --bindir=${FLATPAK_DEST}/bin/${FLATPAK_ARCH}-linux
       - --disable-native-texlive-build
-      - --with-banner-add=' - Flatpak'      
+      - --with-banner-add=' - Flatpak'
       - --without-x # needs additonal dependencies
       - --with-system-cairo
       - --with-system-fontconfig
@@ -79,7 +82,7 @@ modules:
     - /share/doc
     - /share/ghostscript/9.53.3/doc
     - /share/ghostscript/9.53.3/examples
-    - /share/man    
+    - /share/man
   - name: asymptote
     config-opts:
       - --bindir=${FLATPAK_DEST}/bin/${FLATPAK_ARCH}-linux
@@ -91,12 +94,6 @@ modules:
         sha256: e1e85a5db14dc809a43189f85415bd0845bcb9eec7aea5533767838d045b02b2
   - name: dvisvgm
     buildsystem: autotools
-    build-options:
-      cflags: -I/usr/lib/sdk/texlive/include
-      cxxflags: -I/usr/lib/sdk/texlive/include
-      ldflags: -L/usr/lib/sdk/texlive/lib
-      env:
-        PKG_CONFIG_PATH: /usr/lib/sdk/texlive/lib/pkgconfig
     config-opts:
       - --bindir=${FLATPAK_DEST}/bin/${FLATPAK_ARCH}-linux
       - --enable-bundled-libs
@@ -105,10 +102,6 @@ modules:
         url: https://github.com/mgieseki/dvisvgm/archive/2.11.1.tar.gz
         sha256: 71b772d97abe04bc0b9a4dbd0077f4224ade7ea0aac325f061e4c0037d31020c
   - name: clisp
-    build-options:
-      env:
-        CPPFLAGS: -I/usr/lib/sdk/texlive/include
-        LDFLAGS: -L/usr/lib/sdk/texlive/lib
     modules:
       - name: libsigsegv
         sources:
@@ -131,7 +124,7 @@ modules:
     sources:
     - type: archive
       url: http://mirrors.ctan.org/indexing/xindy/base/xindy-2.5.1.tar.gz
-      sha256: 2c8ee91db7217b5776b1ee5272dd259686f7ba3ec1d25c678f75a6c03fe9ba43        
+      sha256: 2c8ee91db7217b5776b1ee5272dd259686f7ba3ec1d25c678f75a6c03fe9ba43
   - name: appdata
     buildsystem: simple
     build-commands:
